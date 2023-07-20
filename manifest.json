@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "name": "Trigger Warning Includer for Sensitive Topics (TWIST)",
+  "description": "A chrome extension to nudge social media posters to use TW/CW",
+  "options_page": "options/options.html",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    
+    "default_icon": "images/TWIST_logo.png"
+  },
+  "icons": {
+    "128": "images/TWIST_logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
+      ],
+      "js": [
+        "jquery/3.7.0/jquery.min.js",
+        "scripts/content-script.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "images/TWIST_logo.png"
+      ],
+      "matches": []
+    }
+  ]
+}
