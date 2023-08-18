@@ -26,6 +26,9 @@
         "https://*/*",
         "<all_urls>"
       ],
+      "css": [
+        "content-styles.css"
+      ],
       "js": [
         "jquery/3.7.0/jquery.min.js",
         "scripts/content-script.js"
@@ -35,7 +38,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "images/TWIST_logo.png"
+        "images/TWIST_logo.png",
+        "content-styles.css"
       ],
       "matches": []
     }

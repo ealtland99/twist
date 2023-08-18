@@ -57,8 +57,8 @@ function checkURLandInject(currentURL, tabId) {
   console.log("currentURL = ", currentURL);
   const URLmatch = "https://twitter.com/compose/tweet";
   if (currentURL && currentURL.includes(URLmatch)) {
-    console.log("AHHHHHHHHHH");
+    //console.log("AHHHHHHHHHH");
     chrome.tabs.sendMessage(tabId, {message: "MY STRING"});
-    console.log("YAYYYYYYYY");
+    //console.log("YAYYYYYYYY");
   }
 }
