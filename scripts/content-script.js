@@ -1,45 +1,37 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("I received a message!  Here it is: ", message);
 
-    // jquery way w/o waitForElm - doesn't work
-    // $(document).ready(function() {
-    //     $('.css-1dbjc4n.r-gtdqiz.r-ipm5af.r-136ojw6').prepend('<div style="color:DarkGreen; border: 1px"> <p> Testing 123 </p> </div>');
-    // });
-
-    // waitForElm('.css-1dbjc4n.r-gtdqiz.r-ipm5af.r-136ojw6').then((elm) => {
-    //     console.log('Element is ready');
-
-    //     // plain JS way
-    //     var box = document.querySelector('.css-1dbjc4n.r-gtdqiz.r-ipm5af.r-136ojw6') 
-    //     var myBox = document.createElement('p');
-    //     myBox.style.color = "red";
-    //     myBox.appendChild(document.createTextNode('Hello World!'));
-    //     box.insertBefore(myBox, null);
-
-    //     // jquery way
-    //     $('.css-1dbjc4n.r-gtdqiz.r-ipm5af.r-136ojw6').prepend('<div style="color:DeepPink; border: 1px"> <p> Emily </p> </div>');
-    // });
-
-    waitForElm('.css-1dbjc4n.r-1pi2tsx.r-1d2f490.r-1xcajam.r-ipm5af.r-13qz1uu').then((elm) => {
+    waitForElm('.css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q').then((elm) => {
         console.log('Found element');
-        $('.css-1dbjc4n.r-1pi2tsx.r-1d2f490.r-1xcajam.r-ipm5af.r-13qz1uu').append('<div id="twist-extension-root"> \
-                                                                                       <div className="TwistApp"> \
-                                                                                           <header className="TwistApp-header"> \
-                                                                                               <h1> \
-                                                                                                   TWIST \
-                                                                                               </h1> \
-                                                                                           </header> \
-                                                                                           <body className="TwistApp-body"> \
-                                                                                               <h2> \
-                                                                                                   Trigger Warning Includer for Sensitive Topics \
-                                                                                               </h2> \
-                                                                                               <p> \
-                                                                                                   A chrome extension to nudge social media posters to use TW/CW \
-                                                                                               </p> \
-                                                                                           </body> \
-                                                                                       </div> \
-                                                                                   </div>');
-        console.log('Appended to element');
+
+        if (document.getElementById('twist-extension-root') == null) {
+            $('.css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q').prepend('<div class="empty-backer-box"> </div> \
+                                                                                                            <div id="twist-extension-root"> \
+                                                                                                                <div class="TwistApp"> \
+                                                                                                                    <header class="TwistApp-header"> \
+                                                                                                                        <h1> \
+                                                                                                                            TWIST: Trigger Warning Includer for Sensitive Topics \
+                                                                                                                        </h1> \
+                                                                                                                    </header> \
+                                                                                                                    <body class="TwistApp-body"> \
+                                                                                                                        <p> \
+                                                                                                                            Based on the content highlighted below, we think you should add a trigger warning for _____.<br>Would you like me to add it as the first message of the thread? \
+                                                                                                                        </p> \
+                                                                                                                        <div class="buttons-box"> \
+                                                                                                                            <button name="submit" class="action_btn submit" type="submit" value="Add Warning" onclick="addWarning()"> Yes please! </button> \
+                                                                                                                            <button name="submit" class="action_btn cancel" type="submit" value="Cancel" onclick="cancelWarning()"> Maybe later </button> \
+                                                                                                                            <a class="info" href="info.html" title="Learn more!"> \
+                                                                                                                                <img \
+                                                                                                                                    src="images/info_icon.png" \
+                                                                                                                                    alt="info icon" \
+                                                                                                                                /> \
+                                                                                                                            </a> \
+                                                                                                                        </div> \
+                                                                                                                    </body> \
+                                                                                                                </div> \
+                                                                                                            </div>');
+            console.log('Prepended to element');
+        }
     });
     
 });
@@ -62,4 +54,12 @@ function waitForElm(selector) {
             subtree: true
         });
     });
+}
+
+function addWarning() {
+    console.log("Add Warning Button Pressed");
+}
+
+function cancelWarning() {
+    console.log("Maybe Later Button Pressed");
 }

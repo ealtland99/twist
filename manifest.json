@@ -13,7 +13,6 @@
     "scripting"
   ],
   "action": {
-    
     "default_icon": "images/TWIST_logo.png"
   },
   "icons": {
@@ -39,6 +38,7 @@
     {
       "resources": [
         "images/TWIST_logo.png",
+        "images/info_icon.png",
         "content-styles.css"
       ],
       "matches": []
