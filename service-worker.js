@@ -46,19 +46,23 @@ chrome.action.onClicked.addListener((tab) => {
 // }
 
 chrome.tabs.onCreated.addListener((tabId, changeInfo, tab) => {
+  console.log("Line 49 of service-worker.js");
   checkURLandInject(tab.url, tabId);
+  console.log("Line 51 of service-worker.js");
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  console.log("Line 55 of service-worker.js");
   checkURLandInject(tab.url, tabId);
+  console.log("Line 57 of service-worker.js");
 });
 
 function checkURLandInject(currentURL, tabId) {
   console.log("currentURL = ", currentURL);
   const URLmatch = "https://twitter.com/compose/tweet";
   if (currentURL && currentURL.includes(URLmatch)) {
-    //console.log("AHHHHHHHHHH");
-    chrome.tabs.sendMessage(tabId, {message: "MY STRING"});
-    //console.log("YAYYYYYYYY");
+    console.log("Line 64 of service-worker.js");
+    chrome.tabs.sendMessage(tabId, {message: "YOU ARE AT THE CORRECT URL"});
+    console.log("Line 66 of service-worker.js");
   }
 }
