@@ -47,7 +47,7 @@ chrome.action.onClicked.addListener((tab) => {
 
 chrome.tabs.onCreated.addListener((tabId, changeInfo, tab) => {
   console.log("Line 49 of service-worker.js");
-  checkURLandInject(tab.url, tabId);
+  //checkURLandInject(tab.url, tabId);
   console.log("Line 51 of service-worker.js");
 });
 

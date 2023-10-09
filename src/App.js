@@ -18,6 +18,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <body>
+        <h2 /*style="color:var(--color-palette-maroon);"*/> <strong> Welcome to the TWIST app! </strong> </h2>
+      </body>
     </div>
   );
 }
