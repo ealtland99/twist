@@ -8,11 +8,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     waitForElm(".css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q").then((elm) => {
         console.log("FOUND ELEMENT TO PREPEND TO");
 
-        if (document.getElementById("twist-extension-root") == null) {
+        if (document.getElementsByClassName("twist-extension-root")[0] == null) {
             console.log("TWIST APP DOES NOT EXIST");
 
             $(".css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q").prepend('<div class="empty-backer-box"> </div> \
-                                                                                                            <div id="twist-extension-root"> \
+                                                                                                            <div class="twist-extension-root"> \
                                                                                                                 <div class="TwistApp"> \
                                                                                                                     <header class="TwistApp-header"> \
                                                                                                                         <h1> \
@@ -26,14 +26,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                                                                                                                     </body> \
                                                                                                                 </div> \
                                                                                                             </div>');
-            
+
+            // gets inserted twice and only when "post" button is present not "post all" button :(
+            // waitForElm(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-1s2bzr4").then((elm) => {
+            //     $(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-1s2bzr4").before('<div class = "invisible-button"> abc </div>');
+            // });
+
+            $(".twist-extension-root").after('<div class = "invisible-button">  </div>');
+
             console.log("TWIST APP HAS BEEN CREATED AND ADDED TO PAGE");
         }
         else {
             console.log("TWIST APP ALREADY EXISTS");
         }
     });
-    
+
 });
 
 function waitForElm(selector) {
