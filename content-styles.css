@@ -99,15 +99,8 @@
     width: 30px;
 }
 
-.page-container {
-    height: fit-content;
-    position: relative;
-}
-
 .page {
-    height: fit-content;
     display: none;
-    position: absolute;
 }
 
 .page.active {
