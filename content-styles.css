@@ -9,10 +9,17 @@
 .invisible-button {
     border: 2px solid red;
     position: absolute;
-    height: 35px;
+    bottom: 0;
+    right: 0;
+    height: 32px;
     z-index: 999;
-    bottom: 7px;
-    right: 15px;
+}
+
+.small-invis-btn {
+    width: 63px;
+}
+
+.large-invis-btn {
     width: 88px;
 }
 
@@ -90,4 +97,19 @@
 .TwistApp .info {
     height: 30px;
     width: 30px;
+}
+
+.page-container {
+    height: fit-content;
+    position: relative;
+}
+
+.page {
+    height: fit-content;
+    display: none;
+    position: absolute;
+}
+
+.page.active {
+    display: block;
 }

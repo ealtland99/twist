@@ -57,12 +57,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   console.log("Line 57 of service-worker.js");
 });
 
+// When the user is on the Twitter compose tweet page, the service worker will send a message to the content script letting them know
 function checkURLandInject(currentURL, tabId) {
   console.log("currentURL = ", currentURL);
   const URLmatch = "https://twitter.com/compose/tweet";
   if (currentURL && currentURL.includes(URLmatch)) {
     console.log("Line 64 of service-worker.js");
-    chrome.tabs.sendMessage(tabId, {message: "YOU ARE AT THE CORRECT URL"});
+    chrome.tabs.sendMessage(tabId, { message: "YOU ARE AT THE CORRECT URL" });
     console.log("Line 66 of service-worker.js");
   }
 }
