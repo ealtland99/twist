@@ -35,16 +35,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
                 const twistAppBody = document.createElement("div");
                 twistAppBody.classList.add("TwistApp-body");
-                twistAppBody.innerHTML = '<div class="page-container"> \
-                                            <div class="page active" id="page1"> \
+                twistAppBody.innerHTML = '<div class="twist-page-container"> \
+                                            <div class="twist-page active" id="page1"> \
                                                 <h1>Page 1</h1> \
                                                 <p>This is the first page.</p> \
                                             </div> \
-                                            <div class="page" id="page2"> \
+                                            <div class="twist-page" id="page2"> \
                                                 <h1>Page 2</h1> \
                                                 <p>This is the second page.</p> \
                                             </div> \
-                                            <div class="page" id="page3"> \
+                                            <div class="twist-page" id="page3"> \
                                                 <h1>Page 3</h1> \
                                                 <p>This is the third page.</p> \
                                             </div> \
@@ -85,6 +85,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
                 showPage(currentPageIndex);
 
+                // Creates a button to minimize/maximize the TWIST app
+                const middleContent = twistApp.getElementsByClassName('twist-page-container')[0];
+                function toggleTWIST() {
+                    if (middleContent.style.display == "none") {
+                        middleContent.style.display = "block";
+                        hideAppBtn.textContent = 'Minimize App';
+                    }
+                    else {
+                        middleContent.style.display = "none";
+                        hideAppBtn.textContent = 'Maximize App';
+                    }
+                }
+
+                const hideAppBtn = document.createElement('button');
+                hideAppBtn.textContent = 'Minimize App';
+                hideAppBtn.id = 'hideAppBtn';
+
+                hideAppBtn.addEventListener('click', toggleTWIST);
+
                 // Creates "Previous" and "Next" buttons
                 const prevBtn = document.createElement('button');
                 prevBtn.textContent = 'Previous';
@@ -97,7 +116,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 prevBtn.addEventListener('click', showPreviousPage);
                 nextBtn.addEventListener('click', showNextPage);
 
-                // Appends the pagination buttons to the twistAppBody
+                // Appends the close button and the pagination buttons to the twistAppBody
+                twistAppBody.appendChild(hideAppBtn);
                 twistAppBody.appendChild(prevBtn);
                 twistAppBody.appendChild(nextBtn);
 
