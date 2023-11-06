@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 twistApp.appendChild(twistAppBody);
 
                 // Sets up the functionality for multiple pages in the design
-                const pages = document.querySelectorAll('.page');
+                const pages = twistApp.querySelectorAll('.page');
                 let currentPageIndex = 0;
 
                 function showPage(index) {
@@ -74,10 +74,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 }
 
                 function showNextPage() {
+                    console.log("I'm in showNextPage!");
                     showPage(currentPageIndex + 1);
                 }
 
                 function showPreviousPage() {
+                    console.log("I'm in showPreviousPage!");
                     showPage(currentPageIndex - 1);
                 }
 
@@ -111,8 +113,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 const invisibleButton = document.createElement("div");
                 invisibleButton.classList.add("invisible-button", "small-invis-btn");
 
-                waitForElm(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-1s2bzr4").then((elm) => {
-                    const elements = document.querySelectorAll(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-1s2bzr4");
+                waitForElm(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih").then((elm) => {
+                    const elements = document.querySelectorAll(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih");
                     if (elements.length >= 2) {
                         console.log("Elements: " + elements.length);
                         const targetElement = elements[1];
