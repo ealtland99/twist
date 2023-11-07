@@ -8,11 +8,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.message == "YOU ARE AT THE CORRECT URL") {
         waitForElm(".css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q").then((elm) => {
-            console.log("FOUND ELEMENT TO PREPEND TO");
-
             if (document.getElementsByClassName("twist-extension-root")[0] == null) {
-                console.log("TWIST APP DOES NOT EXIST");
-
                 // Create the elements and set their properties - all the HTML stuff
                 const backerBox = document.createElement("div");
                 backerBox.classList.add("empty-backer-box");
@@ -90,21 +86,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 waitForElm(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih").then((elm) => {
                     const elements = document.querySelectorAll(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih");
                     if (elements.length >= 2) {
-                        console.log("Elements: " + elements.length);
                         const targetElement = elements[1];
                         targetElement.appendChild(invisibleButton);
-                    } else if (elements.length == 1) {
-                        // Handle the case where there are less than two elements with the specified class
-                        console.log("ERROR ERROR ERROR - There are fewer than two elements with the specified class.");
-                    }
-                    else {
-                        console.log("Need to add waitForElm I think");
                     }
                 });
 
                 // Adds event listener to the invisible button click so TWIST app shows on page
                 invisibleButton.addEventListener("click", function () {
-                    console.log("Button clicked!");
                     twistAppContainer.style.display = "block";
                     console.log("TODO - Check whether warning is present or not then navigate to page 1 or 2");
                     showPage(2);
@@ -116,20 +104,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 let lastPageIndex = 0;
 
                 function showPage(index) {
-                    if (pages.length < 1)  {
-                        console.log("ERROR PAGES LENGTH < 1!");
-                    }
-                    else {
-                        console.log("Success, there are " + pages.length + " pages present");
-                    
-                        // this part will probably be un-needed after I adjust when next/back buttons appear
-                        if (index < 0) {
-                            index = 0;
-                        } else if (index >= pages.length) {
-                            index = pages.length - 1;
-                        }
-                        // end of to-delete part
-
+                    if (pages.length >= 1) {
                         pages.forEach((page, i) => {
                             if (i === index) {
                                 page.classList.add('active');
@@ -201,12 +176,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 }
 
                 function showNextPage() {
-                    console.log("I'm in showNextPage!");
                     let nextPageIndex = 0;
                     switch (currentPageIndex) {
-                        case 0:
-                            console.log("ERROR NEXT BUTTON WAS PRESSED BUT SHOULD NOT HAVE BEEN ON PAGE");
-                            break;
                         case 1:
                             nextPageIndex = 5;
                             break;
@@ -219,24 +190,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                             break;
                         case 4:
                             nextPageIndex = 5;
-                            break;
-                        case 5:
-                            console.log("ERROR NEXT BUTTON WAS PRESSED BUT SHOULD NOT HAVE BEEN ON PAGE");
-                            break;
-                        case 6:
-                            console.log("ERROR NEXT BUTTON WAS PRESSED BUT SHOULD NOT HAVE BEEN ON PAGE");
                         }
 
                     showPage(nextPageIndex);
                 }
 
                 function showPreviousPage() {
-                    console.log("I'm in showPreviousPage!");
                     showPage(lastPageIndex);
                 }
 
                 function showSkipAheadPage() {
-                    console.log("I'm in showSkipAheadPage!");
                     showPage(6);
                 }
 
