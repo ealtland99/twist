@@ -35,42 +35,51 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
                 const twistAppBody = document.createElement("div");
                 twistAppBody.classList.add("TwistApp-body");
-                twistAppBody.innerHTML = '<div class="twist-page-container"> \
-                                            <div class="twist-page active" id="page1"> \
-                                                <h1>Page 1</h1> \
-                                                <p>This is the first page.</p> \
-                                            </div> \
-                                            <div class="twist-page" id="page2"> \
-                                                <h1>Page 2</h1> \
-                                                <p>This is the second page.</p> \
-                                            </div> \
-                                            <div class="twist-page" id="page3"> \
-                                                <h1>Page 3</h1> \
-                                                <p>This is the third page.</p> \
-                                            </div> \
-                                        </div>';
-                twistApp.appendChild(twistAppBody);
+
+                const twistPageContainer = document.createElement("div");
+                twistPageContainer.classList.add("twist-page-container");
+                twistPageContainer.innerHTML = '<div class="twist-page active" id="page1"> \
+                                                    <h1>Page 1</h1> \
+                                                    <p>This is the first page.</p> \
+                                                </div> \
+                                                <div class="twist-page" id="page2"> \
+                                                    <h1>Page 2</h1> \
+                                                    <p>This is the second page.</p> \
+                                                </div> \
+                                                <div class="twist-page" id="page3"> \
+                                                    <h1>Page 3</h1> \
+                                                    <p>This is the third page.</p> \
+                                                </div>';
+                twistAppBody.appendChild(twistPageContainer);
+                
 
                 // Sets up the functionality for multiple pages in the design
-                const pages = twistApp.querySelectorAll('.page');
+                const pages = twistAppBody.querySelectorAll('.twist-page');
                 let currentPageIndex = 0;
 
                 function showPage(index) {
-                    if (index < 0) {
-                        index = 0;
-                    } else if (index >= pages.length) {
-                        index = pages.length - 1;
+                    if (pages.length < 1)  {
+                        console.log("ERROR PAGES LENGTH < 1!");
                     }
-
-                    pages.forEach((page, i) => {
-                        if (i === index) {
-                            page.classList.add('active');
-                        } else {
-                            page.classList.remove('active');
+                    else {
+                        console.log("Success, there is at least one page present");
+                    
+                        if (index < 0) {
+                            index = 0;
+                        } else if (index >= pages.length) {
+                            index = pages.length - 1;
                         }
-                    });
 
-                    currentPageIndex = index;
+                        pages.forEach((page, i) => {
+                            if (i === index) {
+                                page.classList.add('active');
+                            } else {
+                                page.classList.remove('active');
+                            }
+                        });
+
+                        currentPageIndex = index;
+                    }
                 }
 
                 function showNextPage() {
@@ -86,14 +95,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 showPage(currentPageIndex);
 
                 // Creates a button to minimize/maximize the TWIST app
-                const middleContent = twistApp.getElementsByClassName('twist-page-container')[0];
                 function toggleTWIST() {
-                    if (middleContent.style.display == "none") {
-                        middleContent.style.display = "block";
+                    if (twistPageContainer.style.display == "none") {
+                        twistPageContainer.style.display = "block";
                         hideAppBtn.textContent = 'Minimize App';
                     }
                     else {
-                        middleContent.style.display = "none";
+                        twistPageContainer.style.display = "none";
                         hideAppBtn.textContent = 'Maximize App';
                     }
                 }
@@ -103,6 +111,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 hideAppBtn.id = 'hideAppBtn';
 
                 hideAppBtn.addEventListener('click', toggleTWIST);
+                twistAppBody.appendChild(hideAppBtn);
 
                 // Creates "Previous" and "Next" buttons
                 const prevBtn = document.createElement('button');
@@ -116,12 +125,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 prevBtn.addEventListener('click', showPreviousPage);
                 nextBtn.addEventListener('click', showNextPage);
 
-                // Appends the close button and the pagination buttons to the twistAppBody
-                twistAppBody.appendChild(hideAppBtn);
-                twistAppBody.appendChild(prevBtn);
-                twistAppBody.appendChild(nextBtn);
+                // Appends the pagination buttons to the twistAppBody
+                twistPageContainer.appendChild(prevBtn);
+                twistPageContainer.appendChild(nextBtn);
 
                 // Builds the twistAppContainer with all its components but hides it until the post button (really overlaid invisible button) is pressed
+                twistApp.appendChild(twistAppBody);
                 twistAppContainer.appendChild(twistApp);
                 twistAppContainer.style.display = "none";
 

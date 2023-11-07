@@ -99,10 +99,10 @@
     width: 30px;
 }
 
-.page {
+.twist-page {
     display: none;
 }
 
-.page.active {
+.twist-page.active {
     display: block;
 }
