@@ -38,37 +38,97 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
                 const twistPageContainer = document.createElement("div");
                 twistPageContainer.classList.add("twist-page-container");
-                twistPageContainer.innerHTML = '<div class="twist-page active" id="page1"> \
-                                                    <h1>Page 1</h1> \
-                                                    <p>This is the first page.</p> \
+                twistPageContainer.innerHTML = '<div class="twist-page active" id="page0"> \
+                                                    <p>Type your tweet(s) below...</p> \
+                                                </div> \
+                                                <div class="twist-page" id="page1"> \
+                                                    <p>Warning detected.  Can I save this tweet and warning to learn more about the usage of trigger and content warnings?</p> \
                                                 </div> \
                                                 <div class="twist-page" id="page2"> \
-                                                    <h1>Page 2</h1> \
-                                                    <p>This is the second page.</p> \
+                                                    <p>No trigger or content warning detected.  Would you like me to scan to see if you need a warning?</p> \
                                                 </div> \
                                                 <div class="twist-page" id="page3"> \
-                                                    <h1>Page 3</h1> \
-                                                    <p>This is the third page.</p> \
+                                                    <p>Thanks for scanning!  No sensitive content detected.  For future reference, here are some topics where it is recommended to add a warning...</p> \
+                                                </div> \
+                                                <div class="twist-page" id="page4"> \
+                                                    <p>Thanks for scanning!  Warning recommended due to a high likelihood of one of these sensitive topics being present ____.  Heres what a trigger or content warning may look like...</p> \
+                                                </div> \
+                                                <div class="twist-page" id="page5"> \
+                                                    <p>Thanks for using the TWIST app and making social media a safer place for sensitive users.  You can now post your tweet(s).</p> \
+                                                </div>\
+                                                <div class="twist-page" id="page6"> \
+                                                    <p>You can now post your tweet(s).</p> \
                                                 </div>';
                 twistAppBody.appendChild(twistPageContainer);
                 
+                // Creates "Previous", "Next", and "Skip" buttons
+                const prevBtn = document.createElement('button');
+                prevBtn.textContent = 'Back';
+                prevBtn.id = 'prevBtn';
+
+                const nextBtn = document.createElement('button');
+                nextBtn.textContent = 'Next';
+                nextBtn.id = 'nextBtn';
+
+                const skipBtn = document.createElement('button');
+                skipBtn.textContent = 'Skip';
+                skipBtn.id = 'skipBtn';
+
+                prevBtn.addEventListener('click', showPreviousPage);
+                nextBtn.addEventListener('click', showNextPage);
+                skipBtn.addEventListener('click', showSkipAheadPage);
+
+                // Appends the pagination buttons to the twistAppBody
+                twistPageContainer.appendChild(prevBtn);
+                twistPageContainer.appendChild(nextBtn);
+                twistPageContainer.appendChild(skipBtn);
+
+                // Creates and appends the invisible button
+                const invisibleButton = document.createElement("div");
+                invisibleButton.classList.add("invisible-button", "small-invis-btn");
+
+                waitForElm(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih").then((elm) => {
+                    const elements = document.querySelectorAll(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih");
+                    if (elements.length >= 2) {
+                        console.log("Elements: " + elements.length);
+                        const targetElement = elements[1];
+                        targetElement.appendChild(invisibleButton);
+                    } else if (elements.length == 1) {
+                        // Handle the case where there are less than two elements with the specified class
+                        console.log("ERROR ERROR ERROR - There are fewer than two elements with the specified class.");
+                    }
+                    else {
+                        console.log("Need to add waitForElm I think");
+                    }
+                });
+
+                // Adds event listener to the invisible button click so TWIST app shows on page
+                invisibleButton.addEventListener("click", function () {
+                    console.log("Button clicked!");
+                    twistAppContainer.style.display = "block";
+                    console.log("TODO - Check whether warning is present or not then navigate to page 1 or 2");
+                    showPage(2);
+                });
 
                 // Sets up the functionality for multiple pages in the design
                 const pages = twistAppBody.querySelectorAll('.twist-page');
                 let currentPageIndex = 0;
+                let lastPageIndex = 0;
 
                 function showPage(index) {
                     if (pages.length < 1)  {
                         console.log("ERROR PAGES LENGTH < 1!");
                     }
                     else {
-                        console.log("Success, there is at least one page present");
+                        console.log("Success, there are " + pages.length + " pages present");
                     
+                        // this part will probably be un-needed after I adjust when next/back buttons appear
                         if (index < 0) {
                             index = 0;
                         } else if (index >= pages.length) {
                             index = pages.length - 1;
                         }
+                        // end of to-delete part
 
                         pages.forEach((page, i) => {
                             if (i === index) {
@@ -78,18 +138,106 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                             }
                         });
 
+                        lastPageIndex = currentPageIndex;
                         currentPageIndex = index;
+                        switch (currentPageIndex) {
+                            case 0:
+                                invisibleButton.style.display = "block";
+                                prevBtn.style.display = "none";
+                                nextBtn.style.display = "none";
+                                skipBtn.style.display = "none";
+                                break;
+                            case 1:
+                                invisibleButton.style.display = "block";
+                                prevBtn.style.display = "none";
+
+                                nextBtn.style.display = "block";
+                                nextBtn.textContent = "Yes";
+
+                                skipBtn.style.display = "block";
+                                skipBtn.textContent = "No";
+                                break;
+                            case 2:
+                                invisibleButton.style.display = "block";
+                                prevBtn.style.display = "none";
+
+                                nextBtn.style.display = "block";
+                                nextBtn.textContent = "Yes";
+
+                                skipBtn.style.display = "block";
+                                skipBtn.textContent = "No";
+                                break;
+                            case 3:
+                                invisibleButton.style.display = "block";
+                                prevBtn.style.display = "none";
+
+                                nextBtn.style.display = "block";
+                                nextBtn.textContent = "Got It";
+
+                                skipBtn.style.display = "none";
+                                break;
+                            case 4:
+                                invisibleButton.style.display = "block";
+                                prevBtn.style.display = "none";
+
+                                nextBtn.style.display = "block";
+                                nextBtn.textContent = "Got It";
+
+                                skipBtn.style.display = "none";
+                                break;
+                            case 5:
+                                invisibleButton.style.display = "none";
+                                prevBtn.style.display = "block";
+                                nextBtn.style.display = "none";
+                                skipBtn.style.display = "none";
+                                break;
+                            case 6:
+                                invisibleButton.style.display = "none";
+                                prevBtn.style.display = "block";
+                                nextBtn.style.display = "none";
+                                skipBtn.style.display = "none";
+                            }
                     }
                 }
 
                 function showNextPage() {
                     console.log("I'm in showNextPage!");
-                    showPage(currentPageIndex + 1);
+                    let nextPageIndex = 0;
+                    switch (currentPageIndex) {
+                        case 0:
+                            console.log("ERROR NEXT BUTTON WAS PRESSED BUT SHOULD NOT HAVE BEEN ON PAGE");
+                            break;
+                        case 1:
+                            nextPageIndex = 5;
+                            break;
+                        case 2:
+                            console.log("TODO Scan then navigate to page 3 or 4");
+                            nextPageIndex = 3;
+                            break;
+                        case 3:
+                            nextPageIndex = 5;
+                            break;
+                        case 4:
+                            nextPageIndex = 5;
+                            break;
+                        case 5:
+                            console.log("ERROR NEXT BUTTON WAS PRESSED BUT SHOULD NOT HAVE BEEN ON PAGE");
+                            break;
+                        case 6:
+                            console.log("ERROR NEXT BUTTON WAS PRESSED BUT SHOULD NOT HAVE BEEN ON PAGE");
+                        }
+
+                    showPage(nextPageIndex);
                 }
 
                 function showPreviousPage() {
                     console.log("I'm in showPreviousPage!");
-                    showPage(currentPageIndex - 1);
+                    showPage(lastPageIndex);
+                }
+
+                function showSkipAheadPage() {
+                    console.log("I'm in showSkipAheadPage!");
+                    showPage(6);
                 }
 
                 showPage(currentPageIndex);
@@ -113,22 +261,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 hideAppBtn.addEventListener('click', toggleTWIST);
                 twistAppBody.appendChild(hideAppBtn);
 
-                // Creates "Previous" and "Next" buttons
-                const prevBtn = document.createElement('button');
-                prevBtn.textContent = 'Previous';
-                prevBtn.id = 'prevBtn';
-
-                const nextBtn = document.createElement('button');
-                nextBtn.textContent = 'Next';
-                nextBtn.id = 'nextBtn';
-
-                prevBtn.addEventListener('click', showPreviousPage);
-                nextBtn.addEventListener('click', showNextPage);
-
-                // Appends the pagination buttons to the twistAppBody
-                twistPageContainer.appendChild(prevBtn);
-                twistPageContainer.appendChild(nextBtn);
-
                 // Builds the twistAppContainer with all its components but hides it until the post button (really overlaid invisible button) is pressed
                 twistApp.appendChild(twistAppBody);
                 twistAppContainer.appendChild(twistApp);
@@ -137,31 +269,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 // Append the elements to the target on Twitter page
                 const tweetContainer = document.querySelector(".css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q");
                 tweetContainer.insertBefore(twistAppContainer, tweetContainer.firstChild);
-
-                // Creates and append the invisible button
-                const invisibleButton = document.createElement("div");
-                invisibleButton.classList.add("invisible-button", "small-invis-btn");
-
-                waitForElm(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih").then((elm) => {
-                    const elements = document.querySelectorAll(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih");
-                    if (elements.length >= 2) {
-                        console.log("Elements: " + elements.length);
-                        const targetElement = elements[1];
-                        targetElement.appendChild(invisibleButton);
-                    } else if (elements.length == 1) {
-                        // Handle the case where there are less than two elements with the specified class
-                        console.log("ERROR ERROR ERROR - There are fewer than two elements with the specified class.");
-                    }
-                    else {
-                        console.log("Need to add waitForElm I think");
-                    }
-                });
-
-                // Adds event listener to the invisible button click so TWIST app shows on page
-                invisibleButton.addEventListener("click", function () {
-                    console.log("Button clicked!");
-                    twistAppContainer.style.display = "block";
-                });
 
                 console.log("TWIST APP HAS BEEN CREATED AND ADDED TO PAGE");
             }

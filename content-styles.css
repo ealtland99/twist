@@ -101,6 +101,8 @@
 
 .twist-page {
     display: none;
+    text-wrap: wrap;
+    max-width: 580px;
 }
 
 .twist-page.active {
