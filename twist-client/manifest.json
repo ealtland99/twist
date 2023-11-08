@@ -29,7 +29,6 @@
         "content-styles.css"
       ],
       "js": [
-        "jquery/3.7.0/jquery.min.js",
         "scripts/content-script.js"
       ]
     }

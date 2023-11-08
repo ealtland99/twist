@@ -2,16 +2,26 @@
 // import { faCircleInfo } from '@fortawesome/free-regular-svg-icons'
 // library.add(faCircleInfo)
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === 'sendPostRequest') {
-        const data = message.data; // JSON data from the React app
-        sendPostRequest(data);
-    }
-});
+// const sendMessageToContentScript = () => {
+//     console.log("I'm in sendMessageToContentScript in content-script.js");
+//     chrome.scripting.executeScript({
+//         target: { tabId: activeTab.id }, // Execute in the current tab
+//         function: sendPostRequest,
+//       });
+//   };
   
+//   function sendPostRequest() {
+//     const data = { key: 'value' }; // Replace with your JSON data
+  
+//     chrome.runtime.sendMessage({ action: 'sendPostRequest', data }, (response) => {
+//       // Handle the response from the content script if needed
+//       console.log(response);
+//     });
+//   }
+
 function sendPostRequest(data) {
     // Replace with your actual server URL
-    const serverUrl = 'http://localhost:8080/db';
+    const serverUrl = 'http://localhost:8080';
 
     fetch(serverUrl, {
         method: 'POST',
@@ -23,6 +33,7 @@ function sendPostRequest(data) {
         .then((response) => response.json())
         .then((responseJson) => {
         // Handle the response from the server if needed
+        console.log(responseJson);
         })
         .catch((error) => {
         console.error('Error:', error);
@@ -32,6 +43,11 @@ function sendPostRequest(data) {
 // When the content script receives a message, it will read it here then act
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("I received a message!  Here it is: ", message.message);
+
+    if (message.action === 'sendPostRequest') {
+        const data = message.data; // JSON data from the React app
+        sendPostRequest(data);
+    }
 
     if (message.message == "YOU ARE AT THE CORRECT URL") {
         waitForElm(".css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q").then((elm) => {
@@ -250,6 +266,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
                 hideAppBtn.addEventListener('click', toggleTWIST);
                 twistAppBody.appendChild(hideAppBtn);
+
+                // // Creates POST button to test server stuff
+                // const postBtn = document.createElement('button');
+                // postBtn.textContent = 'Post Something';
+                // postBtn.id = 'postBtn';
+
+                // postBtn.addEventListener('click', sendMessageToContentScript);
+                // twistAppBody.appendChild(postBtn);
 
                 // Builds the twistAppContainer with all its components but hides it until the post button (really overlaid invisible button) is pressed
                 twistApp.appendChild(twistAppBody);

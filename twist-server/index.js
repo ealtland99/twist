@@ -1,12 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express();
-const port = 8080; 
+const port = 8080;
 
 app.use(bodyParser.json());
 
-app.post('/db', (req, res) => {
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.post('/', (req, res) => {
   // Handle the JSON data sent from the extension here
   const receivedData = req.body;
   console.log('Received data:', receivedData);
@@ -16,5 +19,5 @@ app.post('/db', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+  console.log(`Server is running on port ${port}`)
+})

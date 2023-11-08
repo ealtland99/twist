@@ -2,23 +2,22 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const sendMessageToContentScript = () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const activeTab = tabs[0];
-    chrome.scripting.executeScript({
-      target: { tabId: activeTab.id },
-      function: sendPostRequest,
-    });
-  });
-};
+// const sendMessageToContentScript = () => {
+//   console.log("I'm in sendMessageToContentScript in App.js");
+//   chrome.scripting.executeScript({
+//     target: { tabId: chrome.tabs.TAB_ID_NONE }, // Execute in the current tab
+//     function: sendPostRequest,
+//   });
+// };
 
-function sendPostRequest() {
-  const data = { key: 'value' }; // Replace with your JSON data
+// function sendPostRequest() {
+//   const data = { key: 'value' }; // Replace with your JSON data
 
-  chrome.runtime.sendMessage({ action: 'sendPostRequest', data }, (response) => {
-    // Handle the response from the content script if needed
-  });
-}
+//   chrome.runtime.sendMessage({ action: 'sendPostRequest', data }, (response) => {
+//     // Handle the response from the content script if needed
+//     console.log(response);
+//   });
+// }
 
 const App = () => {
   // Render your React component
@@ -37,10 +36,10 @@ const App = () => {
         >
           Learn React
         </a>
+        <h2 /*style="color:var(--color-palette-maroon);"*/> <strong> Welcome to the TWIST app! </strong> </h2>
+        {/* <button onClick={sendMessageToContentScript}>Send POST Request</button> */}
       </header>
       <body>
-        <h2 /*style="color:var(--color-palette-maroon);"*/> <strong> Welcome to the TWIST app! </strong> </h2>
-        <button onClick={sendMessageToContentScript}>Send POST Request</button>
       </body>
     </div>
   );
