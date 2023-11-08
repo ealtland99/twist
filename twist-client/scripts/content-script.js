@@ -2,22 +2,22 @@
 // import { faCircleInfo } from '@fortawesome/free-regular-svg-icons'
 // library.add(faCircleInfo)
 
-// const sendMessageToContentScript = () => {
-//     console.log("I'm in sendMessageToContentScript in content-script.js");
-//     chrome.scripting.executeScript({
-//         target: { tabId: activeTab.id }, // Execute in the current tab
-//         function: sendPostRequest,
-//       });
-//   };
+const sendMessageToContentScript = () => {
+    console.log("I'm in sendMessageToContentScript in content-script.js");
+    chrome.scripting.executeScript({
+        target: { tabId: activeTab.id }, // Execute in the current tab
+        function: sendPostRequest,
+      });
+  };
   
-//   function sendPostRequest() {
-//     const data = { key: 'value' }; // Replace with your JSON data
+  function sendPostRequest() {
+    const data = { key: 'value' }; // Replace with your JSON data
   
-//     chrome.runtime.sendMessage({ action: 'sendPostRequest', data }, (response) => {
-//       // Handle the response from the content script if needed
-//       console.log(response);
-//     });
-//   }
+    chrome.runtime.sendMessage({ action: 'sendPostRequest', data }, (response) => {
+      // Handle the response from the content script if needed
+      console.log(response);
+    });
+  }
 
 function sendPostRequest(data) {
     // Replace with your actual server URL
@@ -65,11 +65,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 const twistAppHeader = document.createElement("div");
                 twistAppHeader.classList.add("TwistApp-header");
                 twistAppHeader.innerHTML = '<h1> \
-                                            TWIST: Trigger Warning Includer for Sensitive Topics \
-                                        </h1> \
-                                        <a class="info" href="info.html" title="Learn more!"> \
-                                            <FontAwesomeIcon icon="fa-regular fa-circle-info" class="icon-button" style="font-size:30px; color:var(--color-palette-purple);" /> \
-                                        </a>';
+                                                TWIST: Trigger Warning Includer for Sensitive Topics \
+                                            </h1> \
+                                            <a class="info" href="info.html" title="Learn more!"> \
+                                                <FontAwesomeIcon icon="fa-regular fa-circle-info" class="icon-button" style="font-size:30px; color:var(--color-palette-purple);" /> \
+                                            </a>';
                 twistApp.appendChild(twistAppHeader);
 
                 const twistAppBody = document.createElement("div");
@@ -267,13 +267,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 hideAppBtn.addEventListener('click', toggleTWIST);
                 twistAppBody.appendChild(hideAppBtn);
 
-                // // Creates POST button to test server stuff
-                // const postBtn = document.createElement('button');
-                // postBtn.textContent = 'Post Something';
-                // postBtn.id = 'postBtn';
+                // Creates POST button to test server stuff
+                const postBtn = document.createElement('button');
+                postBtn.textContent = 'Post Something';
+                postBtn.id = 'postBtn';
 
-                // postBtn.addEventListener('click', sendMessageToContentScript);
-                // twistAppBody.appendChild(postBtn);
+                postBtn.addEventListener('click', sendPostRequest);
+                twistAppBody.appendChild(postBtn);
 
                 // Builds the twistAppContainer with all its components but hides it until the post button (really overlaid invisible button) is pressed
                 twistApp.appendChild(twistAppBody);
