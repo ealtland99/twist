@@ -48,9 +48,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const data = message.data; // JSON data from the React app
         sendPostRequest(data);
     }
+    
+    // This seems to change way more than it should so creating variables for them
+    twitterBoxNameWSpaces = "css-175oi2r r-1wbh5a2 r-htvplk r-1udh08x r-1867qdf r-rsyp9y r-1pjcn9w r-1potc6q";
+    twitterBoxName = "." + twitterBoxNameWSpaces.replace(/\s+/g, '.');
+    twitterPostButtonWSpaces = "css-175oi2r r-1awozwy r-18u37iz r-knv0ih";
+    twitterPostButton = "." + twitterPostButtonWSpaces.replace(/\s+/g, '.');
 
     if (message.message == "YOU ARE AT THE CORRECT URL") {
-        waitForElm(".css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q").then((elm) => {
+        waitForElm(twitterBoxName).then((elm) => {
             if (document.getElementsByClassName("twist-extension-root")[0] == null) {
                 // Create the elements and set their properties - all the HTML stuff
                 const backerBox = document.createElement("div");
@@ -125,9 +131,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 // Creates and appends the invisible button
                 const invisibleButton = document.createElement("div");
                 invisibleButton.classList.add("invisible-button", "small-invis-btn");
-
-                waitForElm(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih").then((elm) => {
-                    const elements = document.querySelectorAll(".css-1dbjc4n.r-1awozwy.r-18u37iz.r-knv0ih");
+                
+                waitForElm(twitterPostButton).then((elm) => {
+                    const elements = document.querySelectorAll(twitterPostButton);
                     if (elements.length >= 2) {
                         const targetElement = elements[1];
                         targetElement.appendChild(invisibleButton);
@@ -138,7 +144,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 invisibleButton.addEventListener("click", function () {
                     twistAppContainer.style.display = "block";
                     console.log("TODO - Check whether warning is present or not then navigate to page 1 or 2");
-                    showPage(2);
+                    showPage(1);
                 });
 
                 // Sets up the functionality for multiple pages in the design
@@ -226,7 +232,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                             break;
                         case 2:
                             console.log("TODO Scan then navigate to page 3 or 4");
-                            nextPageIndex = 3;
+                            nextPageIndex = 4;
                             break;
                         case 3:
                             nextPageIndex = 5;
@@ -281,7 +287,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 twistAppContainer.style.display = "none";
 
                 // Append the elements to the target on Twitter page
-                const tweetContainer = document.querySelector(".css-1dbjc4n.r-1867qdf.r-1wbh5a2.r-rsyp9y.r-1pjcn9w.r-htvplk.r-1udh08x.r-1potc6q");
+                const tweetContainer = document.querySelector(twitterBoxName);
                 tweetContainer.insertBefore(twistAppContainer, tweetContainer.firstChild);
 
                 console.log("TWIST APP HAS BEEN CREATED AND ADDED TO PAGE");
