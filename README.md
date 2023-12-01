@@ -1,43 +1,45 @@
-# Getting Started with Create React App
+# Trigger Warning Includer for Sensitive Topics (TWIST) App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a Chrome extension built with React to nudge X users to add trigger warnings or content warnings when posting about sensitive topics.
 
-## Available Scripts
+## How to Set Up
 
-In the project directory, you can run:
+1. Create a project directory (I call mine 'twist')
 
-### `npm start`
+2. Navigate to the directory you just created, and clone the repository.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Make sure you have Node.js installed so `npm` will be recognized as valid command.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. Set up client side
 
-### `npm test`
+   1. In the project directory, navigate to twist-client
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   2. Run `npm install` to install needed dependencies for client side.
 
-### `npm run build`
+   3. Run `npm run build` to build the app for production to the `build` folder.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. Load unpacked extension in Chrome extensions menu
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   1. Switch to developer mode (top right corner switch) if you are not already in developer mode.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   2. Click "load unpacked" button and navigate to twist-client directory.
 
-### `npm run eject`
+   3. Click "select folder" button. It should be added as a Chrome extension and another tab will open with some details about the app.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+6. Set up server side
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   1. In the project directory, navigate to twist-server
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   2. Run `npm install` to install needed dependencies for server side.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## How to Run
+
+1. In twist-client directory, run `npm start` to run the app in the development mode.
+2. In the twist-server directory, run `node index.js` to start the server.
+
+3. Clear any errors and refresh the app in the Chrome extension menu.
+
+4. Re-load or navigate to the [X posting page](https://twitter.com/compose/tweet).
 
 ## Learn More
 
