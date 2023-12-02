@@ -59,17 +59,17 @@ function sendPostRequest(data) {
       });
 }
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  checkURLandInject(tab.url, tabId);
-
-  sendPostRequest({'key': 'SAMPLE STR'});
-});
-
 // When the user is on the Twitter compose tweet page, the service worker will send a message to the content script letting them know
-function checkURLandInject(currentURL, tabId) {
+// but only the first time they reach this URL
+function myListener(tabId, changeInfo, tab) {
   // console.log("currentURL = ", currentURL);
   const URLmatch = "https://twitter.com/compose/tweet";
-  if (currentURL && currentURL.includes(URLmatch)) {
+  if (tab.url && tab.url.includes(URLmatch)) {
+    console.log("Before message sent (in the if)");
     chrome.tabs.sendMessage(tabId, { message: "YOU ARE AT THE CORRECT URL" });
+    console.log("After message sent");
+    //chrome.tabs.onUpdated.removeListener(myListener);
   }
+  sendPostRequest({'key': 'SAMPLE STR klklklklklk'});
 }
+chrome.tabs.onUpdated.addListener(myListener);

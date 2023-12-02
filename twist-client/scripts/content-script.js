@@ -313,9 +313,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 console.log("TWIST APP HAS BEEN CREATED AND ADDED TO PAGE");
             }
             else {
-                console.log("TWIST APP ALREADY EXISTS");
+                console.log("TWIST APP ALREADY EXISTS - I should never get here anymore");
             }
         });
+    }
+    else if (message.message == "ADD BUTTON PRESSED")  {
+        // TODO add invisible button again
     }
 });
 
