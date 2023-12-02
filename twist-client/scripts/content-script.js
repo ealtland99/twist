@@ -49,15 +49,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendPostRequest(data);
     }
     
-    // This seems to change way more than it should so creating variables for them
-    twitterBoxNameWSpaces = "css-175oi2r r-1wbh5a2 r-htvplk r-1udh08x r-1867qdf r-rsyp9y r-1pjcn9w r-1potc6q";
-    twitterBoxName = "." + twitterBoxNameWSpaces.replace(/\s+/g, '.');
-    twitterPostButtonWSpaces = "css-175oi2r r-1awozwy r-18u37iz r-knv0ih";
-    twitterPostButton = "." + twitterPostButtonWSpaces.replace(/\s+/g, '.');
+    // TODO - These seem to change names by X way more than they should so creating variables for them
+    const twitterBoxNameWSpaces = "css-175oi2r r-1wbh5a2 r-htvplk r-1udh08x r-1867qdf r-rsyp9y r-1pjcn9w r-1potc6q";
+    const twitterBoxName = "." + twitterBoxNameWSpaces.replace(/\s+/g, '.');
+    const twitterPostButtonWSpaces = "css-175oi2r r-1awozwy r-18u37iz r-knv0ih";
+    const twitterPostButton = "." + twitterPostButtonWSpaces.replace(/\s+/g, '.');
+    // const addTweetButtonWSpaces = "css-175oi2r r-sdzlij r-1phboty r-rs99b7 r-lrvibr r-1ceczpf r-lp5zef r-1loqt21 r-o7ynqc r-6416eg r-1ny4l3l";
+    // const addTweetButton = "." + addTweetButtonWSpaces.replace(/\s+/g, '.');
 
     if (message.message == "YOU ARE AT THE CORRECT URL") {
         waitForElm(twitterBoxName).then((elm) => {
             if (document.getElementsByClassName("twist-extension-root")[0] == null) {
+                const tweetContainer = document.querySelector(twitterBoxName);
+
                 // Create the elements and set their properties - all the HTML stuff
                 const backerBox = document.createElement("div");
                 backerBox.classList.add("empty-backer-box");
@@ -143,8 +147,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 // Adds event listener to the invisible button click so TWIST app shows on page
                 invisibleButton.addEventListener("click", function () {
                     twistAppContainer.style.display = "block";
-                    console.log("TODO - Check whether warning is present or not then navigate to page 1 or 2");
-                    showPage(1);
+
+                    // Look at text and print to console for now
+                    let inputTextBoxes = tweetContainer.getElementsByClassName("DraftEditor-editorContainer");
+                    let tweetText = "";
+                    for (let i = 0; i < inputTextBoxes.length; i++) {
+                        if (i > 0) {
+                            tweetText = tweetText + " ";
+                        }
+                        tweetText = tweetText + inputTextBoxes[i].innerText;
+                    }
+                    console.log(tweetText);
+
+                    // Simple check for whether warning is already present
+                    if (tweetText.toLowerCase().includes("trigger warning") || tweetText.toLowerCase().includes("content warning")) {
+                        showPage(1);
+                    }
+                    else {
+                        showPage(2);
+                    }
                 });
 
                 // Sets up the functionality for multiple pages in the design
@@ -287,7 +308,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 twistAppContainer.style.display = "none";
 
                 // Append the elements to the target on Twitter page
-                const tweetContainer = document.querySelector(twitterBoxName);
                 tweetContainer.insertBefore(twistAppContainer, tweetContainer.firstChild);
 
                 console.log("TWIST APP HAS BEEN CREATED AND ADDED TO PAGE");
